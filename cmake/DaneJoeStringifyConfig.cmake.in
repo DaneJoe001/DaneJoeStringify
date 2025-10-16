@@ -1,0 +1,10 @@
+@PACKAGE_INIT@
+
+# @brief 包配置入口（安装树）
+# @param usage 通过 find_package(DaneJoeStringify CONFIG REQUIRED) 调用
+# @param targets 仅引入 install(EXPORT ...) 生成的 Targets 文件
+# @param exported_target 对外提供的命名空间目标：danejoe::stringify
+
+include("${CMAKE_CURRENT_LIST_DIR}/DaneJoeStringifyTargets.cmake")
+
+

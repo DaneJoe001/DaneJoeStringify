@@ -14,6 +14,8 @@
 - 自动分派：优先成员 `to_string()`，其次 `std::to_string`，否则提供类型名占位
 - 容器友好：自动遍历并格式化为 `[a, b, c]`
 - `std::pair` 友好：`{first:second}`
+- 提供 CMake 命名空间别名目标：`danejoe::stringify`
+- 支持安装后通过 `find_package(DaneJoeStringify)` 消费
 - 纯头文件 API；如需使用测试或生成静态库，可通过 CMake 构建
 
 ## 目录结构
@@ -44,21 +46,48 @@ int main() {
 
 > 提示：库会对可迭代对象逐个递归调用 `to_string`，并以逗号分隔包装在 `[]` 中。
 
-### 方式二：通过 CMake 构建并链接静态库
+### 方式二：通过 CMake 构建并链接静态库（子目录方式）
 ```bash
 cmake -S . -B build/gcc-debug -D CMAKE_BUILD_TYPE=Debug
 cmake --build build/gcc-debug -j
 ```
-将目标 `DaneJoeStringify` 链接到你的可执行程序：
+在你的上层工程中以子目录方式使用：
 ```cmake
 add_subdirectory(path/to/library_danejoe_stringify)
 
 add_executable(MyApp main.cpp)
-target_link_libraries(MyApp PRIVATE DaneJoeStringify)
-target_include_directories(MyApp PRIVATE path/to/library_danejoe_stringify/include)
+target_link_libraries(MyApp PRIVATE danejoe::stringify)
 ```
 
-> 非 MSVC 平台会自动链接 `Threads::Threads`（见 `CMakeLists.txt`）。
+### 方式三：FetchContent 引入（无需安装）
+```cmake
+include(FetchContent)
+
+FetchContent_Declare(DaneJoeStringify
+  GIT_REPOSITORY https://your.git/DaneJoeStringify.git
+  GIT_TAG        v1.0.0
+)
+FetchContent_MakeAvailable(DaneJoeStringify)
+
+add_executable(MyApp main.cpp)
+target_link_libraries(MyApp PRIVATE danejoe::stringify)
+```
+
+### 方式四：已安装包（find_package）
+先在库根目录安装：
+```bash
+cmake -S . -B build -D CMAKE_BUILD_TYPE=Release
+cmake --build build -j
+cmake --install build
+```
+消费者工程中：
+```cmake
+find_package(DaneJoeStringify CONFIG REQUIRED)
+add_executable(MyApp main.cpp)
+target_link_libraries(MyApp PRIVATE danejoe::stringify)
+```
+
+> 提示：导出/安装逻辑仅在顶层工程时启用；作为子项目/FetchContent 引入时不会执行安装步骤。
 
 ## API 概览
 头文件：`stringify/stringify.hpp`
@@ -82,6 +111,15 @@ target_include_directories(MyApp PRIVATE path/to/library_danejoe_stringify/inclu
     - 否则输出 `typeid(T).name()<No to_string>`。
 
 > 通过内部萃取 `has_member_to_string`、`has_std_to_string`、`has_iterator` 实现分派。
+
+## 版本宏
+安装或构建后可包含版本头：
+```cpp
+#include <version/stringify_version.h>
+
+// 可用宏：
+// STRINGIFY_VERSION_MAJOR / _MINOR / _PATCH / _STR
+```
 
 ## 示例
 ```cpp
@@ -113,8 +151,17 @@ int main() {
 ```
 
 ## 兼容性
-- 要求 C++17 及以上编译器
+- 要求 C++17 及以上编译器（库以目标特性声明最低标准为 C++17，消费者可使用更高标准）
 - 在 MSVC、GCC/Clang 上均可使用（工程已提供相应 CMake 预设）
+
+## 构建与测试
+- 开启测试（顶层工程时）：`-D DANEJOE_STRINGIFY_BUILD_TESTS=ON`
+- 运行：
+```bash
+cmake -S . -B build -D DANEJOE_STRINGIFY_BUILD_TESTS=ON
+cmake --build build -j
+ctest --test-dir build
+```
 
 ## 局限与注意事项
 - 对枚举类型使用 `typeid(T).name()`，名称可能与编译器相关且未解码

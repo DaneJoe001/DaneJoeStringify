@@ -1,5 +1,17 @@
 #pragma once
 
+/// @todo 引入时间to_string支持
+
+/**
+ * @file stringify.hpp
+ * @brief 字符串化工具库
+ * @author DaneJoe001
+ * @note
+ *   - 提供统一的 to_string 接口，将常见类型、容器、数组与 std::pair 转换为可读字符串
+ *   - 支持检测：拥有成员函数 to_string() 的类型、可被 std::to_string(T) 处理的类型、标准容器及任意可迭代类型（具有 begin/end）、枚举类型（以底层值展示）、字符、布尔、字符串与 std::pair
+ *   - 包含一个变量名转字符串的宏 VARIABLE_NAME_TO_STRING(x)，便于打印调试
+ */
+
 #include <string>
 #include <cstdint>
 #include <iterator>

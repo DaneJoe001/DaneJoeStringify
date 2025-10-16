@@ -1,0 +1,18 @@
+#pragma once
+
+/**
+ * @file stringify_version.h.in
+ * @brief 由 CMake configure_file 生成的版本宏头文件
+ * @note
+ *   - 构建树路径：${CMAKE_CURRENT_BINARY_DIR}/include/version/stringify_version.h
+ *   - 安装树路径：${CMAKE_INSTALL_INCLUDEDIR}/version/stringify_version.h
+ * @code{.cpp}
+ *   #include <version/stringify_version.h>
+ *   std::cout << STRINGIFY_VERSION_STR; // "1.0.0"
+ * @endcode
+ */
+
+#define STRINGIFY_VERSION_MAJOR @PROJECT_VERSION_MAJOR@
+#define STRINGIFY_VERSION_MINOR @PROJECT_VERSION_MINOR@
+#define STRINGIFY_VERSION_PATCH @PROJECT_VERSION_PATCH@
+#define STRINGIFY_VERSION_STR   "@PROJECT_VERSION@"
