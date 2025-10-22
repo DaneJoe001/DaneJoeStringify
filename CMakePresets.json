@@ -1,0 +1,60 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 15,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "gcc-debug",
+            "displayName": "GCC Debug",
+            "generator": "Unix Makefiles",
+            "binaryDir": "${sourceDir}/build/gcc-debug",
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE":"/home/danejoe001/develop_environment/environment_cpp/vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake",
+                "CMAKE_CXX_COMPILER": "/usr/local/bin/g++",
+                "CMAKE_PREFIX_PATH": "/usr/lib/x86_64-linux-gnu/cmake",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "msvc-debug",
+            "displayName": "Default Configuration",
+            "description": "Default build configuration with all dependencies",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_CXX_STANDARD": "23",
+                "CMAKE_CXX_STANDARD_REQUIRED": "ON",
+                "CMAKE_CXX_EXTENSIONS": "OFF",
+                "CMAKE_TOOLCHAIN_FILE": "D:/develop_environment/environment_cpp/cpp_vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake",
+                "CMAKE_PREFIX_PATH": "D:/personal_app/app_qt/qt_6.9/6.9.1/msvc2022_64",
+                "FFMPEG_LIBRARY_DIR": "D:/develop_environment/environment_cpp/cpp_vcpkg/vcpkg/installed/x64-windows/debug/lib",
+                "FFMPEG_INCLUDE_DIR": "D:/develop_environment/environment_cpp/cpp_vcpkg/vcpkg/installed/x64-windows/include",
+                "Boost_USE_STATIC_LIBS": "ON",
+                "Boost_USE_MULTITHREADED": "ON",
+                "Boost_USE_STATIC_RUNTIME": "OFF",
+                "MYSQL_ROOT": "C:/Program Files/MySQL/MySQL Server 8.0",
+                "BUILD_CLIENT": "ON",
+                "BUILD_SERVER": "ON",
+                "BUILD_TESTS": "OFF"
+            },
+            "environment": {
+                "VCPKG_ROOT": "D:/develop_environment/environment_cpp/cpp_vcpkg/vcpkg"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "msvc-debug",
+            "configurePreset": "msvc-debug",
+            "jobs":8
+        },
+        {
+            "name": "gcc-debug",
+            "configurePreset": "gcc-debug",
+            "jobs":8
+        }
+    ]
+}
