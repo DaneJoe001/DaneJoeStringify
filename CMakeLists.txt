@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(DaneJoeStringify VERSION 0.1.0 LANGUAGES CXX)
+project(DaneJoeStringify VERSION 0.1.1 LANGUAGES CXX)
 option(DANEJOE_STRINGIFY_BUILD_TESTS "Build tests for DaneJoeStringify" ON)
 
 add_library(DaneJoeStringify
