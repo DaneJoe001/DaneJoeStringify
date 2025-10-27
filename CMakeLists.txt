@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 project(DaneJoeStringify VERSION 0.2.0 LANGUAGES CXX)
-option(DANEJOE_STRINGIFY_BUILD_TESTS "Build tests for DaneJoeStringify" ON)
+option(DANEJOE_STRINGIFY_BUILD_TESTS "Build tests for DaneJoeStringify" ${BUILD_TESTING})
 
 add_library(DaneJoeStringify
   "source/danejoe/stringify/stringify.cpp"
@@ -15,6 +15,9 @@ target_include_directories(DaneJoeStringify
 )
 
 target_compile_features(DaneJoeStringify PUBLIC cxx_std_20)
+
+# 版本与 SOVERSION
+set_target_properties(DaneJoeStringify PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION 0)
 
 include(GNUInstallDirs)
 install(TARGETS DaneJoeStringify
