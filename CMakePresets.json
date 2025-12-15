@@ -7,53 +7,57 @@
     },
     "configurePresets": [
         {
-            "name": "gcc-debug",
+            "name": "linux-gcc-debug",
             "displayName": "GCC Debug",
             "generator": "Unix Makefiles",
-            "binaryDir": "${sourceDir}/build/gcc-debug",
+            "binaryDir": "${sourceDir}/build/linux-gcc-debug",
             "cacheVariables": {
-                "CMAKE_TOOLCHAIN_FILE":"/home/danejoe001/develop_environment/environment_cpp/vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake",
-                "CMAKE_CXX_COMPILER": "/usr/local/bin/g++",
-                "CMAKE_PREFIX_PATH": "/usr/lib/x86_64-linux-gnu/cmake",
                 "CMAKE_BUILD_TYPE": "Debug"
             }
         },
         {
-            "name": "msvc-debug",
+            "name": "win-msvc-debug",
             "displayName": "Default Configuration",
-            "description": "Default build configuration with all dependencies",
-            "binaryDir": "${sourceDir}/build",
+            "description": "Default build configuration with all dependencies (Visual Studio generator for building)",
+            "generator": "Visual Studio 17 2022",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "binaryDir": "${sourceDir}/build/win-msvc-debug"
+        },
+        {
+            "name": "win-msvc-debug-ninja",
+            "displayName": "MSVC Debug (Ninja for compile_commands.json)",
+            "description": "Ninja generator for generating compile_commands.json. Hardened to avoid MSYS sh interference.",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/win-msvc-debug-ninja",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_CXX_STANDARD": "23",
-                "CMAKE_CXX_STANDARD_REQUIRED": "ON",
-                "CMAKE_CXX_EXTENSIONS": "OFF",
-                "CMAKE_TOOLCHAIN_FILE": "D:/develop_environment/environment_cpp/cpp_vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake",
-                "CMAKE_PREFIX_PATH": "D:/personal_app/app_qt/qt_6.9/6.9.1/msvc2022_64",
-                "FFMPEG_LIBRARY_DIR": "D:/develop_environment/environment_cpp/cpp_vcpkg/vcpkg/installed/x64-windows/debug/lib",
-                "FFMPEG_INCLUDE_DIR": "D:/develop_environment/environment_cpp/cpp_vcpkg/vcpkg/installed/x64-windows/include",
-                "Boost_USE_STATIC_LIBS": "ON",
-                "Boost_USE_MULTITHREADED": "ON",
-                "Boost_USE_STATIC_RUNTIME": "OFF",
-                "MYSQL_ROOT": "C:/Program Files/MySQL/MySQL Server 8.0",
-                "BUILD_CLIENT": "ON",
-                "BUILD_SERVER": "ON",
-                "BUILD_TESTS": "OFF"
-            },
-            "environment": {
-                "VCPKG_ROOT": "D:/develop_environment/environment_cpp/cpp_vcpkg/vcpkg"
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "CMAKE_NINJA_FORCE_RESPONSE_FILE": "ON",
+                "CMAKE_VERBOSE_MAKEFILE": "ON",
+                "CMAKE_EXE_LINKER_FLAGS": "/MANIFEST:NO",
+                "CMAKE_SHARED_LINKER_FLAGS": "/MANIFEST:NO",
+                "CMAKE_MODULE_LINKER_FLAGS": "/MANIFEST:NO",
+                "CMAKE_TRY_COMPILE_TARGET_TYPE": "STATIC_LIBRARY"
             }
         }
     ],
     "buildPresets": [
         {
-            "name": "msvc-debug",
-            "configurePreset": "msvc-debug",
+            "name": "win-msvc-debug",
+            "configurePreset": "win-msvc-debug",
             "jobs":8
         },
         {
-            "name": "gcc-debug",
-            "configurePreset": "gcc-debug",
+            "name": "linux-gcc-debug",
+            "configurePreset": "linux-gcc-debug",
+            "jobs":8
+        },
+        {
+            "name": "win-msvc-debug-ninja",
+            "configurePreset": "win-msvc-debug-ninja",
             "jobs":8
         }
     ]

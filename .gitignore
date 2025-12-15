@@ -1,46 +1,69 @@
-# Build directories and CMake artifacts
-!/tests/
-!/tests/**
-/build/
-/CMakeFiles/
-/CMakeCache.txt
-/Testing/
-/Makefile
-/cmake_install.cmake
-/install_manifest.txt
-/compile_commands.json
+# ==============================
+# IDE / 编辑器本机配置（不进仓库）
+# ==============================
+.cursor/
+.vscode/
+.vs/
+.idea/
+CMakeUserPresets.json
+compile_commands.json
 
-# Compiled objects and libraries
-*.o
-*.obj
-*.lo
-*.la
-*.a
-*.so*
-*.dylib
-*.dll
-*.pdb
-*.mod
-*.smod
+# ==============================
+# 本机缓存/临时目录（不进仓库）
+# ==============================
+.cache/
 
-# Coverage and profiling
-*.gcno
-*.gcda
-*.gcov
-*.profraw
-*.profdata
+# ==============================
+# CMake / 构建目录（不细分内部产物）
+# ==============================
+build/
+build-ninja/
+cmake-build-*/
+build-*/
+out/
 
-# IDE/project files
-/.idea/
-/.vscode/
+# ==============================
+# 资源（默认不进仓库；仅白名单提交确认的资源）
+# ==============================
+resource/**
+!resource/
+!resource/resource.qrc
+!resource/image/
+!resource/image/app_icon.png
+
+# ==============================
+# Visual Studio / MSVC 生成物（可能出现在源码目录）
+# ==============================
+*.suo
 *.user
+*.VC.db
+*.VC.opendb
+ipch/
 
-# OS files
-.DS_Store
-Thumbs.db
-
-# Local databases and logs
-*.db
+# ==============================
+# 日志（默认忽略；可白名单保留样本）
+# ==============================
+# @brief 日志（默认忽略；可白名单保留样本）
+# @note 保留重定向生成的编译日志，用于AI审查
 *.log
-logs/
+!log/compile.log
 
+# ==============================
+# 数据库/本机数据文件（默认不进仓库）
+# ==============================
+# @brief 数据库/本机数据文件（默认不进仓库）
+*.db
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+
+# ==============================
+# 私人文件或配置
+# ==============================
+privacy/
+document/privacy/

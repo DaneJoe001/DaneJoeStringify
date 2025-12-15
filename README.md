@@ -10,15 +10,20 @@ cmake --build build
 
 ## 运行示例/测试
 ```bash
-ctest --test-dir build -V -R stringify\.demo
-# 或直接运行
-./build/library/stringify/tests/danejoe_stringify_demo
+ctest --test-dir build -L unit --output-on-failure
 ```
 
 ## 作为依赖使用
 CMake:
 ```cmake
 find_package(DaneJoeStringify CONFIG REQUIRED)
+add_executable(app main.cpp)
+target_link_libraries(app PRIVATE DaneJoe::Stringify)
+```
+
+聚合包（推荐）：
+```cmake
+find_package(DaneJoe CONFIG REQUIRED COMPONENTS Stringify)
 add_executable(app main.cpp)
 target_link_libraries(app PRIVATE DaneJoe::Stringify)
 ```

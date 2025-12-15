@@ -7,12 +7,18 @@ add_library(DaneJoeStringify
 )
 add_library(DaneJoe::Stringify ALIAS DaneJoeStringify)
 
+set_target_properties(DaneJoeStringify PROPERTIES EXPORT_NAME Stringify)
+
 target_include_directories(DaneJoeStringify
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
     $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/include>
     $<INSTALL_INTERFACE:include>
 )
+
+if(MSVC)
+  target_compile_options(DaneJoeStringify PRIVATE /utf-8)
+endif()
 
 target_compile_features(DaneJoeStringify PUBLIC cxx_std_20)
 
@@ -64,11 +70,7 @@ install(FILES
 )
 
 if(DANEJOE_STRINGIFY_BUILD_TESTS)
-  include(CTest)
-  enable_testing()
   if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/CMakeLists.txt")
     add_subdirectory(tests)
-  else()
-    # create a simple tests CMake if missing
   endif()
 endif()
