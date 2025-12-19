@@ -3,6 +3,44 @@
 
 #include "danejoe/stringify/stringify_format.hpp"
 
+std::string DaneJoe::to_string(FormatPosition position)
+{
+    switch (position)
+    {
+    case FormatPosition::LEFT:
+        return ENUM_TO_STRING(FormatPosition::LEFT);
+    case FormatPosition::CENTER:
+        return ENUM_TO_STRING(FormatPosition::CENTER);
+    case FormatPosition::RIGHT:
+        return ENUM_TO_STRING(FormatPosition::RIGHT);
+    case FormatPosition::Unknown:
+    default:
+        return ENUM_TO_STRING(FormatPosition::Unknown);
+    }
+}
+
+template<>
+DaneJoe::FormatPosition DaneJoe::enum_cast<DaneJoe::FormatPosition>(const std::string& enum_string)
+{
+    if (enum_string == ENUM_TO_STRING(FormatPosition::LEFT))
+    {
+        return FormatPosition::LEFT;
+    }
+    else if (enum_string == ENUM_TO_STRING(FormatPosition::CENTER))
+    {
+        return FormatPosition::CENTER;
+    }
+    else if (enum_string == ENUM_TO_STRING(FormatPosition::RIGHT))
+    {
+        return FormatPosition::RIGHT;
+    }
+    else if (enum_string == ENUM_TO_STRING(FormatPosition::Unknown))
+    {
+        return FormatPosition::Unknown;
+    }
+    return FormatPosition::Unknown;
+}
+
 std::string DaneJoe::format_title(
     const std::string& title,
     const std::string& sign,
@@ -38,6 +76,7 @@ std::string DaneJoe::format_title(
         break;
     }
     case FormatPosition::CENTER:
+    case FormatPosition::Unknown:
     default:
     {
         oss << sign_str.substr(0, rest_count / 2);

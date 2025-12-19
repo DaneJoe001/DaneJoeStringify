@@ -7,6 +7,7 @@ add_executable(danejoe_stringify_unit_tests
   "${CMAKE_CURRENT_LIST_DIR}/source/test_stringify_config.cpp"
   "${CMAKE_CURRENT_LIST_DIR}/source/test_stringify_format.cpp"
   "${CMAKE_CURRENT_LIST_DIR}/source/test_to_string.cpp"
+  "${CMAKE_CURRENT_LIST_DIR}/source/test_to_string_edge.cpp"
 )
 
 target_link_libraries(danejoe_stringify_unit_tests

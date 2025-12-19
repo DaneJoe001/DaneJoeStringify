@@ -1,15 +1,20 @@
 cmake_minimum_required(VERSION 3.20)
 project(DaneJoeStringify VERSION 0.2.0 LANGUAGES CXX)
 option(DANEJOE_STRINGIFY_BUILD_TESTS "Build tests for DaneJoeStringify" ${BUILD_TESTING})
+option(DANEJOE_STRINGIFY_BUILD_EXAMPLES "Build examples for DaneJoeStringify" OFF)
 option(DANEJOE_ALLOW_FETCH "Allow fetching DaneJoe deps from remote if not found locally" OFF)
 
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+if(PROJECT_IS_TOP_LEVEL)
+  set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-if(CMAKE_EXPORT_COMPILE_COMMANDS AND CMAKE_GENERATOR MATCHES "Ninja|Makefiles")
-  add_custom_target(update_compile_commands_${PROJECT_NAME} ALL
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${CMAKE_BINARY_DIR}/compile_commands.json"
-            "${CMAKE_CURRENT_LIST_DIR}/compile_commands.json")
+  if(CMAKE_EXPORT_COMPILE_COMMANDS AND CMAKE_GENERATOR MATCHES "Ninja|Makefiles")
+    if(NOT TARGET update_compile_commands_${PROJECT_NAME})
+      add_custom_target(update_compile_commands_${PROJECT_NAME} ALL
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${CMAKE_BINARY_DIR}/compile_commands.json"
+                "${CMAKE_CURRENT_LIST_DIR}/compile_commands.json")
+    endif()
+  endif()
 endif()
 
 if(NOT TARGET DaneJoe::Common)
@@ -23,7 +28,7 @@ if(NOT TARGET DaneJoe::Common)
       FetchContent_Declare(
         DaneJoeCommon
         GIT_REPOSITORY https://github.com/DaneJoe001/DaneJoeCommon.git
-        GIT_TAG v0.1.1
+        GIT_TAG v0.2.0
       )
       FetchContent_MakeAvailable(DaneJoeCommon)
     endif()
@@ -60,13 +65,18 @@ target_compile_features(DaneJoeStringify PUBLIC cxx_std_20)
 set_target_properties(DaneJoeStringify PROPERTIES VERSION ${PROJECT_VERSION} SOVERSION 0)
 
 include(GNUInstallDirs)
-install(TARGETS DaneJoeStringify
+install(
+  TARGETS DaneJoeStringify
   EXPORT DaneJoeStringifyTargets
   RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
   LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
   ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
 )
-install(DIRECTORY "include/" DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}")
+install(
+  DIRECTORY
+    "include/"
+  DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}"
+)
 
 # version header
 file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/include/danejoe/version")
@@ -75,9 +85,11 @@ configure_file(
   "${CMAKE_CURRENT_BINARY_DIR}/include/danejoe/version/stringify_version.h"
   @ONLY
 )
-install(FILES
-  "${CMAKE_CURRENT_BINARY_DIR}/include/danejoe/version/stringify_version.h"
-  DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/danejoe/version")
+install(
+  FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/include/danejoe/version/stringify_version.h"
+  DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/danejoe/version"
+)
 
 # export targets (no package config for now)
 install(EXPORT DaneJoeStringifyTargets
@@ -94,19 +106,29 @@ write_basic_package_version_file(
   COMPATIBILITY SameMajorVersion
 )
 
-configure_file("cmake/DaneJoeStringifyConfig.cmake.in"
-  "${CMAKE_CURRENT_BINARY_DIR}/DaneJoeStringifyConfig.cmake" @ONLY)
-
-install(FILES
+configure_file(
+  "cmake/DaneJoeStringifyConfig.cmake.in"
   "${CMAKE_CURRENT_BINARY_DIR}/DaneJoeStringifyConfig.cmake"
-  "${CMAKE_CURRENT_BINARY_DIR}/DaneJoeStringifyConfigVersion.cmake"
+  @ONLY
+)
+
+install(
+  FILES
+    "${CMAKE_CURRENT_BINARY_DIR}/DaneJoeStringifyConfig.cmake"
+    "${CMAKE_CURRENT_BINARY_DIR}/DaneJoeStringifyConfigVersion.cmake"
   DESTINATION "${CMAKE_INSTALL_LIBDIR}/cmake/DaneJoeStringify"
 )
 
 if(DANEJOE_STRINGIFY_BUILD_TESTS)
   include(CTest)
   enable_testing()
-  if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/tests/CMakeLists.txt")
-    add_subdirectory(tests)
+  if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/test/CMakeLists.txt")
+    add_subdirectory(test)
+  endif()
+endif()
+
+if(DANEJOE_STRINGIFY_BUILD_EXAMPLES)
+  if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/example/CMakeLists.txt")
+    add_subdirectory(example)
   endif()
 endif()

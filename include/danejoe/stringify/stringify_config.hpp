@@ -10,10 +10,12 @@
 #include <string>
 #include <mutex>
 
-/**
- * @namespace DaneJoe
- * @brief DaneJoe 命名空间
- */
+#include "danejoe/common/enum/enum_convert.hpp"
+
+ /**
+  * @namespace DaneJoe
+  * @brief DaneJoe 命名空间
+  */
 namespace DaneJoe
 {
     /**
@@ -118,8 +120,24 @@ namespace DaneJoe
         /// @brief 泽字节
         ZettaByte,
         /// @brief 尧字节
-        YottaByte
+        YottaByte,
+        /// @brief 未知单位
+        Unknown
     };
+
+    /**
+     * @brief 获取存储单位枚举字符串（调试用）
+     * @param unit 存储单位
+     * @return 对应的枚举字符串
+     */
+    std::string to_string(StorageUnit unit);
+    /**
+     * @brief 从字符串转换为存储单位
+     * @param enum_string 由 ENUM_TO_STRING 生成的枚举字符串
+     * @return 对应的枚举值，未知时返回 StorageUnit::Unknown
+     */
+    template<>
+    StorageUnit enum_cast<StorageUnit>(const std::string& enum_string);
     /**
      * @struct Config
      * @brief 配置

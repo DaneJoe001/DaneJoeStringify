@@ -29,7 +29,7 @@
 
 /**
  * @namespace DaneJoe
- * @brief 字符串化工具库
+ * @brief DaneJoe 命名空间
  */
 namespace DaneJoe
 {
@@ -210,9 +210,9 @@ namespace DaneJoe
     }
     /**
      * @brief 含有迭代器分支,但非字符串类型
-     * @tparam T
-     * @param value
-     * @return std::string
+     * @tparam T 容器类型
+     * @param value 容器对象
+     * @return 转换后的字符串
      */
     template <class T, std::enable_if_t<
         has_iterator<T>::value &&
@@ -235,10 +235,10 @@ namespace DaneJoe
     }
     /**
      * @brief 尝试将C数组转为字符串
-     * @tparam T
+     * @tparam T 元素类型
      * @param ptr 指针
      * @param count 元素数量
-     * @return std::string
+     * @return 转换后的字符串
      */
     template<class T>
     std::string from_c_ptr(const T* ptr, std::size_t count)
@@ -264,10 +264,10 @@ namespace DaneJoe
     }
     /**
      * @brief 尝试将C数组转为字符串
-     * @tparam T
+     * @tparam T 元素类型
      * @tparam N 元素数量
      * @param array 数组
-     * @return std::string
+     * @return 转换后的字符串
      */
     template<class T, std::size_t N>
     std::string from_c_array(const T(&array)[N])
@@ -470,10 +470,10 @@ namespace DaneJoe
     }
     /**
      * @brief 尝试将C数组转为字符串
-     * @tparam T
+     * @tparam T 元素类型
      * @param ptr 指针
      * @param count 元素数量
-     * @return std::string
+     * @return 转换后的字符串
      */
     template<class T>
     std::string to_string(const T* ptr, std::size_t count)
@@ -482,10 +482,10 @@ namespace DaneJoe
     }
     /**
      * @brief 尝试将时间点转为字符串
-     * @tparam T
+     * @tparam T 时间点类型
      * @param time_point 时间点
      * @param format 时间格式（strftime/put_time 格式字符串）
-     * @return std::string
+     * @return 转换后的字符串
      */
     template<class T, std::enable_if_t<
         is_chrono_time_point<T>::value, int> = 0>

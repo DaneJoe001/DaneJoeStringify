@@ -30,8 +30,23 @@ namespace DaneJoe
         /// @brief 居中对齐
         CENTER,
         /// @brief 右对齐
-        RIGHT
+        RIGHT,
+        /// @brief 未知位置
+        Unknown
     };
+    /**
+     * @brief 将格式化位置转换为字符串（调试用）
+     * @param position 格式化位置
+     * @return 对应的枚举字符串
+     */
+    std::string to_string(FormatPosition position);
+    /**
+     * @brief 从字符串转换为格式化位置
+     * @param enum_string 由 ENUM_TO_STRING 生成的枚举字符串
+     * @return 对应的枚举值，未知时返回 FormatPosition::Unknown
+     */
+    template<>
+    FormatPosition enum_cast<FormatPosition>(const std::string& enum_string);
     /**
      * @brief 格式化标题
      * @param title 标题

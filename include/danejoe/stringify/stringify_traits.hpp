@@ -10,7 +10,6 @@
 #include <utility>
 #include <type_traits>
 #include <string>
-
 #include <ostream>
 
  /**

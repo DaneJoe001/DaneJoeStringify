@@ -2,7 +2,7 @@
     "version": 3,
     "cmakeMinimumRequired": {
         "major": 3,
-        "minor": 15,
+        "minor": 20,
         "patch": 0
     },
     "configurePresets": [
@@ -13,6 +13,17 @@
             "binaryDir": "${sourceDir}/build/linux-gcc-debug",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "linux-gcc-debug-ninja",
+            "displayName": "GCC Debug (Ninja for compile_commands.json)",
+            "description": "Ninja generator for generating compile_commands.json.",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/linux-gcc-debug-ninja",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON"
             }
         },
         {
@@ -46,19 +57,24 @@
     ],
     "buildPresets": [
         {
-            "name": "win-msvc-debug",
-            "configurePreset": "win-msvc-debug",
-            "jobs":8
-        },
-        {
             "name": "linux-gcc-debug",
             "configurePreset": "linux-gcc-debug",
-            "jobs":8
+            "jobs": 8
+        },
+        {
+            "name": "linux-gcc-debug-ninja",
+            "configurePreset": "linux-gcc-debug-ninja",
+            "jobs": 8
+        },
+        {
+            "name": "win-msvc-debug",
+            "configurePreset": "win-msvc-debug",
+            "jobs": 8
         },
         {
             "name": "win-msvc-debug-ninja",
             "configurePreset": "win-msvc-debug-ninja",
-            "jobs":8
+            "jobs": 8
         }
     ]
 }
